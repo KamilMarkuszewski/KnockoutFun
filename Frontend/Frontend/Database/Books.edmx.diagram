@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7308d0910c9d4632976256e278f35f08" Name="Diagram1">
+        <EntityTypeShape EntityType="BooksModel.BookDb" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BooksModel.BooksCategoriesBindingDb" Width="1.5" PointX="3.875" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BooksModel.BooksSetsBindingDb" Width="1.5" PointX="3.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BooksModel.CategoryDb" Width="1.5" PointX="6.625" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BooksModel.SetDb" Width="1.5" PointX="6.875" PointY="2.5" IsExpanded="true" />
+        <AssociationConnector Association="BooksModel.FK_BooksCategoriesBindings_BookId" ManuallyRouted="false" />
+        <AssociationConnector Association="BooksModel.FK_BooksSetsBindings_BookId" ManuallyRouted="false" />
+        <AssociationConnector Association="BooksModel.FK_BooksCategoriesBindings_CategoryId" ManuallyRouted="false" />
+        <AssociationConnector Association="BooksModel.FK_BooksSetsBindings_SetId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

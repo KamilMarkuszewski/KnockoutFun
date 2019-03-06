@@ -1,0 +1,35 @@
+﻿
+<template id="create-book-form">
+    <div>
+        <h4>Creating book: <!--ko text: currentBook().title --><!--/ko--></h4>
+        <form data-bind="submit: saveCreatedBook">
+
+            <div class="form-group">
+                <label for="Title">Title</label>
+                <input type="text" class="form-control" id="Title" data-bind="textInput: currentBook().title"/>
+            </div>
+
+            <div class="form-group">
+                <label for="Author">Author</label>
+                <input type="text" class="form-control" id="Author" data-bind="textInput: currentBook().author"/>
+            </div>
+
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <input type="text" class="form-control" id="Description" data-bind="textInput: currentBook().description"/>
+            </div>
+
+            <div class="form-group">
+                <label for="Isbn">Isbn</label>
+                <input type="text" class="form-control" id="Isbn" data-bind="textInput: currentBook().isbn"/>
+            </div>
+
+            @if (ViewBag.IsAdmin)
+            {
+            <button type="submit" class="btn btn-primary">Submit</button>
+            }
+
+        </form>
+    </div>
+
+</template>

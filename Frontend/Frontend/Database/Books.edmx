@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BooksModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Author" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="Isbn" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BooksCategoriesBindings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="BookId" Type="int" Nullable="false" />
+          <Property Name="CategoryId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BooksSetsBindings">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="BookId" Type="int" Nullable="false" />
+          <Property Name="SetId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sets">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timestamp" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BooksCategoriesBindings_BookId">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BooksCategoriesBindings" Type="Self.BooksCategoriesBindings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BooksCategoriesBindings">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BooksCategoriesBindings_CategoryId">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="BooksCategoriesBindings" Type="Self.BooksCategoriesBindings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BooksCategoriesBindings">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BooksSetsBindings_BookId">
+          <End Role="Books" Type="Self.Books" Multiplicity="1" />
+          <End Role="BooksSetsBindings" Type="Self.BooksSetsBindings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BooksSetsBindings">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BooksSetsBindings_SetId">
+          <End Role="Sets" Type="Self.Sets" Multiplicity="1" />
+          <End Role="BooksSetsBindings" Type="Self.BooksSetsBindings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sets">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BooksSetsBindings">
+              <PropertyRef Name="SetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BooksModelStoreContainer">
+          <EntitySet Name="Books" EntityType="Self.Books" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BooksCategoriesBindings" EntityType="Self.BooksCategoriesBindings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BooksSetsBindings" EntityType="Self.BooksSetsBindings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sets" EntityType="Self.Sets" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BooksCategoriesBindings_BookId" Association="Self.FK_BooksCategoriesBindings_BookId">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BooksCategoriesBindings" EntitySet="BooksCategoriesBindings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BooksCategoriesBindings_CategoryId" Association="Self.FK_BooksCategoriesBindings_CategoryId">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="BooksCategoriesBindings" EntitySet="BooksCategoriesBindings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BooksSetsBindings_BookId" Association="Self.FK_BooksSetsBindings_BookId">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BooksSetsBindings" EntitySet="BooksSetsBindings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BooksSetsBindings_SetId" Association="Self.FK_BooksSetsBindings_SetId">
+            <End Role="Sets" EntitySet="Sets" />
+            <End Role="BooksSetsBindings" EntitySet="BooksSetsBindings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BooksModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BookDb">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Author" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="400" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Isbn" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BooksCategoriesBindings" Relationship="Self.FK_BooksCategoriesBindings_BookId" FromRole="Books" ToRole="BooksCategoriesBindings" />
+          <NavigationProperty Name="BooksSetsBindings" Relationship="Self.FK_BooksSetsBindings_BookId" FromRole="Books" ToRole="BooksSetsBindings" />
+        </EntityType>
+        <EntityType Name="BooksCategoriesBindingDb">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="BookId" Type="Int32" Nullable="false" />
+          <Property Name="CategoryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Books" Relationship="Self.FK_BooksCategoriesBindings_BookId" FromRole="BooksCategoriesBindings" ToRole="Books" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_BooksCategoriesBindings_CategoryId" FromRole="BooksCategoriesBindings" ToRole="Categories" />
+        </EntityType>
+        <EntityType Name="BooksSetsBindingDb">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="BookId" Type="Int32" Nullable="false" />
+          <Property Name="SetId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Books" Relationship="Self.FK_BooksSetsBindings_BookId" FromRole="BooksSetsBindings" ToRole="Books" />
+          <NavigationProperty Name="Sets" Relationship="Self.FK_BooksSetsBindings_SetId" FromRole="BooksSetsBindings" ToRole="Sets" />
+        </EntityType>
+        <EntityType Name="CategoryDb">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BooksCategoriesBindings" Relationship="Self.FK_BooksCategoriesBindings_CategoryId" FromRole="Categories" ToRole="BooksCategoriesBindings" />
+        </EntityType>
+        <EntityType Name="SetDb">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timestamp" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="BooksSetsBindings" Relationship="Self.FK_BooksSetsBindings_SetId" FromRole="Sets" ToRole="BooksSetsBindings" />
+        </EntityType>
+        <Association Name="FK_BooksCategoriesBindings_BookId">
+          <End Role="Books" Type="BooksModel.BookDb" Multiplicity="1" />
+          <End Role="BooksCategoriesBindings" Type="BooksModel.BooksCategoriesBindingDb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BooksCategoriesBindings">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BooksSetsBindings_BookId">
+          <End Role="Books" Type="BooksModel.BookDb" Multiplicity="1" />
+          <End Role="BooksSetsBindings" Type="BooksModel.BooksSetsBindingDb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BooksSetsBindings">
+              <PropertyRef Name="BookId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BooksCategoriesBindings_CategoryId">
+          <End Role="Categories" Type="BooksModel.CategoryDb" Multiplicity="1" />
+          <End Role="BooksCategoriesBindings" Type="BooksModel.BooksCategoriesBindingDb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BooksCategoriesBindings">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BooksSetsBindings_SetId">
+          <End Role="Sets" Type="BooksModel.SetDb" Multiplicity="1" />
+          <End Role="BooksSetsBindings" Type="BooksModel.BooksSetsBindingDb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sets">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BooksSetsBindings">
+              <PropertyRef Name="SetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BooksEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Books" EntityType="BooksModel.BookDb" />
+          <EntitySet Name="BooksCategoriesBindings" EntityType="BooksModel.BooksCategoriesBindingDb" />
+          <EntitySet Name="BooksSetsBindings" EntityType="BooksModel.BooksSetsBindingDb" />
+          <EntitySet Name="Categories" EntityType="BooksModel.CategoryDb" />
+          <EntitySet Name="Sets" EntityType="BooksModel.SetDb" />
+          <AssociationSet Name="FK_BooksCategoriesBindings_BookId" Association="Self.FK_BooksCategoriesBindings_BookId">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BooksCategoriesBindings" EntitySet="BooksCategoriesBindings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BooksSetsBindings_BookId" Association="Self.FK_BooksSetsBindings_BookId">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BooksSetsBindings" EntitySet="BooksSetsBindings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BooksCategoriesBindings_CategoryId" Association="Self.FK_BooksCategoriesBindings_CategoryId">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="BooksCategoriesBindings" EntitySet="BooksCategoriesBindings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BooksSetsBindings_SetId" Association="Self.FK_BooksSetsBindings_SetId">
+            <End Role="Sets" EntitySet="Sets" />
+            <End Role="BooksSetsBindings" EntitySet="BooksSetsBindings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BooksModelStoreContainer" CdmEntityContainer="BooksEntities">
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="BooksModel.BookDb">
+              <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Isbn" ColumnName="Isbn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BooksCategoriesBindings">
+            <EntityTypeMapping TypeName="BooksModel.BooksCategoriesBindingDb">
+              <MappingFragment StoreEntitySet="BooksCategoriesBindings">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BooksSetsBindings">
+            <EntityTypeMapping TypeName="BooksModel.BooksSetsBindingDb">
+              <MappingFragment StoreEntitySet="BooksSetsBindings">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="BookId" ColumnName="BookId" />
+                <ScalarProperty Name="SetId" ColumnName="SetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="BooksModel.CategoryDb">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sets">
+            <EntityTypeMapping TypeName="BooksModel.SetDb">
+              <MappingFragment StoreEntitySet="Sets">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

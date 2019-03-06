@@ -1,0 +1,324 @@
+﻿@using Frontend.ExtensionMethods
+@model Frontend.ViewModels.HomeViewModel
+
+@{
+    ViewBag.Title = "Books list";
+}
+
+<style>
+    #container {
+        display: table;
+        width: 100%
+    }
+
+    #row {
+        display: table-row;
+    }
+
+    #left, #right, #middle {
+        display: table-cell;
+    }
+
+    #left {
+        width: 30%;
+    }
+
+    #right {
+        right: 70%;
+    }
+</style>
+
+<br/> 
+<div id="container">
+    <div id="left">
+
+        <book-details params="currentBook: currentBook" data-bind="visible: editingComponentVisible"></book-details>
+
+        <create-book params="currentBook: currentBook" data-bind="visible: creatingComponentVisible"></create-book>
+
+
+    </div>
+
+    <div id="right">
+        <button data-bind="click: setShowList" class="btn btn-secondary">List view</button>
+        <button data-bind="click: setShowCategories" class="btn btn-secondary">Category view</button>
+        <button data-bind="click: setShowSets" class="btn btn-secondary">Set view</button>
+        <br />
+
+        <div data-bind="visible: showList">
+            <br />
+            <button data-bind="click: addBook" class="btn btn-primary">Create</button>
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Title</td>
+                        <td>Author</td>
+                        <td> </td>
+                        <td> </td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: { data: books, as: 'book' }">
+                    <tr>
+                        <td data-bind="text: book.title"></td>
+                        <td data-bind="text: book.author"></td>
+                        <td> <button data-bind="click: $parent.editBook" class="btn btn-primary">Details</button> </td>
+                        @if (ViewBag.IsAdmin)
+                        {
+                            <td> <button data-bind="click: $parent.removeBook" class="btn btn-danger">Remove</button> </td>
+                        }
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div data-bind="visible: showSets">
+
+            <!-- ko foreach: sets -->
+            <b> <br />Set: <!--ko text: Name --><!--/ko--> <br /></b>
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <td>Title</td>
+                        <td>Author</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!-- ko foreach: $data.Books-->
+                    <tr>
+
+                        <td data-bind="text: $data.Title"></td>
+                        <td data-bind="text: $data.Author"></td>
+                    </tr>
+                    <!--/ko-->
+                </tbody>
+
+            </table>
+            <!-- /ko -->
+
+        </div>
+
+        <div data-bind="visible: showCategories">
+            <!-- ko foreach: categories -->
+            <b> <br />Category: <!--ko text: Name --><!--/ko--> <br /></b>
+            <table class="table" data-bind="visible: $data.Books.length > 0">
+                <thead>
+                    <tr>
+
+                        <td>Title</td>
+                        <td>Author</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!-- ko foreach: $data.Books-->
+                    <tr>
+
+                        <td data-bind="text: $data.Title"></td>
+                        <td data-bind="text: $data.Author"></td>
+                    </tr>
+                    <!--/ko-->
+                </tbody>
+
+            </table>
+            <!-- /ko -->
+        </div>
+        <br /><br />
+        <span> Total books in library: <!--ko text: booksCount --><!--/ko--></span>
+        <span> Total sets in library: <!--ko text: setsCount --><!--/ko--></span>
+
+    </div>
+</div>
+
+
+@Html.Partial("_CreateBookForm")
+@Html.Partial("_BookDetailsForm")
+
+<script>
+
+    function Load() {
+        $.ajax({
+            url: '@Url.Action("GetBooks", "Home")',
+            type: 'POST',
+            success: function (html) {
+                viewModel.books.removeAll();
+                html.forEach(function (currentValue, index, arr) {
+                    var el = new Book(currentValue.Id, currentValue.Title, currentValue.Author, currentValue.Description, currentValue.Isbn);
+                    ko.utils.addOrRemoveItem(viewModel.books, el, true);
+                });
+            }
+        });
+    }
+
+    function AddBook(jsonData) {
+        $.ajax({
+            url: '@Url.Action("Add", "Home")',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: "{ bookViewModel: " + jsonData + " }",
+            success: function () {
+
+            }
+        }).done(function () {
+            Load();
+        });
+    }
+
+    function EditBook(jsonData) {
+        $.ajax({
+            url: '@Url.Action("Edit", "Home")',
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            data: "{ bookViewModel: " + jsonData + " }",
+            success: function () {
+
+            }
+        }).done(function () {
+            Load();
+        });
+    }
+
+
+    function CreateBookViewModel(params) {
+        var self = this;
+        self.currentBook = params.currentBook;
+        self.sending = ko.observable(false);
+
+        self.saveCreatedBook = function() {
+
+            self.sending(true);
+            var data = {
+                id: self.currentBook().id,
+                title: self.currentBook().title,
+                author: self.currentBook().author,
+                description: self.currentBook().description,
+                isbn: self.currentBook().isbn
+            };
+
+            var jsonData = ko.toJSON(data);
+            AddBook(jsonData);
+        };
+    }
+
+    function BookDetailsViewModel(params) {
+        var self = this;
+        self.currentBook = params.currentBook;
+        self.sending = ko.observable(false);
+
+        self.saveEditedBook = function () {
+
+            self.sending(true);
+            var data = {
+                id: self.currentBook().id,
+                title: self.currentBook().title,
+                author: self.currentBook().author,
+                description: self.currentBook().description,
+                isbn: self.currentBook().isbn
+            };
+
+            var jsonData = ko.toJSON(data);
+            EditBook(jsonData);
+        };
+    }
+
+
+    function Book(id, title, author, description, isbn) {
+        this.id = ko.observable(id);
+        this.title = ko.observable(title);
+        this.author = ko.observable(author);
+        this.description = ko.observable(description);
+        this.isbn = ko.observable(isbn);
+    }
+
+    function MyViewModel(booksList, sets, categories) {
+        var self = this;
+
+        self.creatingComponentVisible = ko.observable(false);
+        self.editingComponentVisible = ko.observable(false);
+
+        self.showList = ko.observable(true);
+        self.showCategories = ko.observable(false);
+        self.showSets = ko.observable(false);
+
+        var emptyBook = new Book(0, '', '', '', '');
+        self.currentBook = ko.observable(emptyBook).extend({ notify: 'always' });
+
+        self.books = ko.observableArray
+        (
+            booksList
+        );
+
+        self.sets = ko.observableArray(sets);
+        self.categories = ko.observableArray(categories);
+
+        self.booksCount = ko.computed(function () { return self.books().length; });
+        self.setsCount = ko.computed(function () { return self.sets().length; });
+
+        self.removeBook = function (book) {
+            self.creatingComponentVisible(false);
+            self.editingComponentVisible(false);
+
+            $.ajax({
+                url: '@Url.Action("Remove", "Home")',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: "{ id: " + book.id + " }",
+                success: function () {
+                    self.books(self.books().filter(function(value) {
+                        return value.id != book.is;
+                    }));
+                }
+            });
+        };
+
+        self.editBook = function (book) {
+            self.creatingComponentVisible(false);
+            self.editingComponentVisible(true);
+            self.currentBook(book);
+        };
+
+        self.addBook = function () {
+            self.creatingComponentVisible(true);
+            self.editingComponentVisible(false);
+            self.currentBook(emptyBook);
+        };
+
+        self.setShowList = () => {
+            self.showList(true);
+            self.showCategories(false);
+            self.showSets(false);
+        };
+
+        self.setShowCategories = () => {
+            self.showList(false);
+            self.showCategories(true);
+            self.showSets(false);
+        };
+
+        self.setShowSets = () => {
+            self.showList(false);
+            self.showCategories(false);
+            self.showSets(true);
+        };
+    }
+
+    ko.components.register('book-details', {
+        viewModel: BookDetailsViewModel,
+        template: { element: 'book-details-form' }
+    });
+
+    ko.components.register('create-book', {
+        viewModel: CreateBookViewModel,
+        template: { element: 'create-book-form' }
+    });
+
+    var booksList = @Html.HtmlConvertToJson(Model.Books);
+    var sets = @Html.HtmlConvertToJson(Model.Sets);
+    var categories = @Html.HtmlConvertToJson(Model.Categories);
+    var viewModel = new MyViewModel(booksList, sets, categories);
+
+    ko.applyBindings(viewModel);
+
+</script>
