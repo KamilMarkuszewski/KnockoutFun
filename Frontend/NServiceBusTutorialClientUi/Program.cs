@@ -26,6 +26,7 @@ namespace NServiceBusTutorialClientUi
             var transport = endpointConf.UseTransport<LearningTransport>();
             var routing = transport.Routing();
             routing.RouteToEndpoint(typeof(ReloadCommand), "NServiceBusTutorialKeyService");
+            routing.RouteToEndpoint(typeof(ShootCommand), "NServiceBusTutorialKeyService");
 
             var endpoint = await Endpoint.Start(endpointConf).ConfigureAwait(false);
 
@@ -38,7 +39,7 @@ namespace NServiceBusTutorialClientUi
         {
             while (true)
             {
-                log.Info("Press Enter to quit");
+                log.Info("Press Escape to quit");
                 var key = Console.ReadKey();
                 Console.WriteLine();
 
@@ -53,7 +54,7 @@ namespace NServiceBusTutorialClientUi
                     await endpoint.Send(cmd).ConfigureAwait(false);
                 }
 
-                if (key.Key == ConsoleKey.Enter)
+                if (key.Key == ConsoleKey.Escape)
                 {
                     return;
                 }

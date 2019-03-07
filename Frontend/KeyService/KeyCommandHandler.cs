@@ -9,18 +9,12 @@ using NServiceBusTutorialMessages;
 
 namespace NServiceBusTutorialKeyService
 {
-    class KeyCommandHandler : IHandleMessages<KeyPressedEvent>, IHandleMessages<ComplexKeyPressedEvent>, IHandleMessages<ReloadCommand>
+    class KeyCommandHandler : IHandleMessages<KeyPressedEvent>, IHandleMessages<ComplexKeyPressedEvent>, IHandleMessages<ReloadCommand>, IHandleMessages<ShootCommand>
     {
         static ILog log = LogManager.GetLogger<KeyCommandHandler>();
 
         public Task Handle(KeyPressedEvent message, IMessageHandlerContext context)
         {
-            if (new Random().Next(0, 5) == 0)
-            {
-                // Simulating problem
-                throw new Exception();
-            }
-
             log.Info("Received " + message.GetType().Name + " Key " + message.KeyCode + " Message id " + message.MessageId);
             return Task.CompletedTask;
         }
@@ -34,6 +28,12 @@ namespace NServiceBusTutorialKeyService
         public Task Handle(ReloadCommand message, IMessageHandlerContext context)
         {
             log.Info("RELOADING Received " + message.GetType().Name + " Key " + message.KeyCode + " Message id " + message.MessageId);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(ShootCommand message, IMessageHandlerContext context)
+        {
+            log.Info("SHOOTING Received " + message.GetType().Name + " Key " + message.KeyCode + " Message id " + message.MessageId);
             return Task.CompletedTask;
         }
     }

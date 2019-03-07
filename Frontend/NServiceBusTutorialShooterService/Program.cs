@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NServiceBus;
+using NServiceBusTutorialMessages;
 
-namespace NServiceBusTutorialKeyService
+namespace NServiceBusTutorialShooterService
 {
     class Program
     {
@@ -16,7 +17,7 @@ namespace NServiceBusTutorialKeyService
 
         private static async Task AsyncMain()
         {
-            string title = "NServiceBusTutorialKeyService";
+            string title = "NServiceBusTutorialShooterService";
 
             Console.Title = title;
 
@@ -28,7 +29,9 @@ namespace NServiceBusTutorialKeyService
             conf.EnableInstallers();
 
             var transport = conf.UseTransport<LearningTransport>();
-            
+            var routing = transport.Routing();
+            routing.RouteToEndpoint(typeof(ShootCommand), "NServiceBusTutorialKeyService");
+
             var endpoint = await Endpoint.Start(conf).ConfigureAwait(false);
 
             Console.WriteLine("Press Enter to exit.");
