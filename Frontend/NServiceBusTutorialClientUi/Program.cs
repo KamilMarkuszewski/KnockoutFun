@@ -22,13 +22,14 @@ namespace NServiceBusTutorialClientUi
         {
             string title = "NServiceBusTutorialClientUi";
             Console.Title = title;
-            var endpointConf = new EndpointConfiguration(title);
-            var transport = endpointConf.UseTransport<LearningTransport>();
+            var conf = new EndpointConfiguration(title);
+            conf.UsePersistence<LearningPersistence>();
+            var transport = conf.UseTransport<LearningTransport>();
             var routing = transport.Routing();
             routing.RouteToEndpoint(typeof(ReloadCommand), "NServiceBusTutorialKeyService");
             routing.RouteToEndpoint(typeof(ShootCommand), "NServiceBusTutorialKeyService");
 
-            var endpoint = await Endpoint.Start(endpointConf).ConfigureAwait(false);
+            var endpoint = await Endpoint.Start(conf).ConfigureAwait(false);
 
             await RunLoop(endpoint).ConfigureAwait(false);
 

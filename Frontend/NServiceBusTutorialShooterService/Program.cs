@@ -27,6 +27,7 @@ namespace NServiceBusTutorialShooterService
             recoverSettings.Immediate(i => i.NumberOfRetries(1));
             conf.SendFailedMessagesTo("error");
             conf.EnableInstallers();
+            conf.UsePersistence<LearningPersistence>();
 
             var transport = conf.UseTransport<LearningTransport>();
             var routing = transport.Routing();

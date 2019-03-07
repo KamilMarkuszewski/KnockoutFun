@@ -27,6 +27,7 @@ namespace NServiceBusTutorialKeyService
             conf.SendFailedMessagesTo("error");
             conf.EnableInstallers();
 
+            conf.UsePersistence<LearningPersistence>();
             var transport = conf.UseTransport<LearningTransport>();
             
             var endpoint = await Endpoint.Start(conf).ConfigureAwait(false);

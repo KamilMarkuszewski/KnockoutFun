@@ -52,6 +52,8 @@
     <Compile Include="KeyCommandHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShootingPolicy.cs" />
+    <Compile Include="ShootingPolicyData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
