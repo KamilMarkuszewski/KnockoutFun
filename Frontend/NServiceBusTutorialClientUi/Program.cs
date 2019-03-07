@@ -25,8 +25,7 @@ namespace NServiceBusTutorialClientUi
             var endpointConf = new EndpointConfiguration(title);
             var transport = endpointConf.UseTransport<LearningTransport>();
             var routing = transport.Routing();
-            routing.RouteToEndpoint(typeof(KeyCommand), "NServiceBusTutorialKeyService");
-            routing.RouteToEndpoint(typeof(ComplexKeyCommand), "NServiceBusTutorialKeyService");
+            routing.RouteToEndpoint(typeof(ReloadCommand), "NServiceBusTutorialKeyService");
 
             var endpoint = await Endpoint.Start(endpointConf).ConfigureAwait(false);
 
@@ -43,6 +42,17 @@ namespace NServiceBusTutorialClientUi
                 var key = Console.ReadKey();
                 Console.WriteLine();
 
+                if (key.Key == ConsoleKey.R)
+                {
+                    var cmd = new ReloadCommand
+                    {
+                        MessageId = Guid.NewGuid().ToString(),
+                        KeyCode = key.Key.ToString()
+                    };
+
+                    await endpoint.Send(cmd).ConfigureAwait(false);
+                }
+
                 if (key.Key == ConsoleKey.Enter)
                 {
                     return;
@@ -51,7 +61,7 @@ namespace NServiceBusTutorialClientUi
                 {
                     if ((key.Modifiers & ConsoleModifiers.Alt) != 0 || (key.Modifiers & ConsoleModifiers.Shift) != 0 || (key.Modifiers & ConsoleModifiers.Control) != 0)
                     {
-                        var cmd = new ComplexKeyCommand()
+                        var cmd = new ComplexKeyEvent()
                         {
                             MessageId = Guid.NewGuid().ToString(),
                             KeyCode = key.Key.ToString(),
@@ -71,17 +81,17 @@ namespace NServiceBusTutorialClientUi
                             cmd.Modifiers.Add(new KeyModifier(ConsoleModifiers.Shift.ToString()));
                         }
 
-                        await endpoint.SendLocal(cmd).ConfigureAwait(false);
+                        await endpoint.Publish(cmd).ConfigureAwait(false);
                     }
                     else
                     {
-                        var cmd = new KeyCommand
+                        var cmd = new KeyEvent()
                         {
                             MessageId = Guid.NewGuid().ToString(),
                             KeyCode = key.Key.ToString()
                         };
 
-                        await endpoint.SendLocal(cmd).ConfigureAwait(false);
+                        await endpoint.Publish(cmd).ConfigureAwait(false);
                     }
                 }
             }

@@ -9,21 +9,24 @@ using NServiceBusTutorialMessages;
 
 namespace NServiceBusTutorialClientUi
 {
-    class KeyCommandHandler : IHandleMessages<KeyCommand>, IHandleMessages<ComplexKeyCommand>
+    class KeyCommandHandler : IHandleMessages<KeyEvent>, IHandleMessages<ComplexKeyEvent>, IHandleMessages<ReloadCommand>
     {
         static ILog log = LogManager.GetLogger<KeyCommandHandler>();
 
-        public Task Handle(KeyCommand message, IMessageHandlerContext context)
+        public Task Handle(KeyEvent message, IMessageHandlerContext context)
         {
-            context.Send(message).ConfigureAwait(false);
             log.Info("Received " + message.GetType().Name + " Key " + message.KeyCode + " Message id " + message.MessageId);
             return Task.CompletedTask;
         }
 
-        public Task Handle(ComplexKeyCommand message, IMessageHandlerContext context)
+        public Task Handle(ComplexKeyEvent message, IMessageHandlerContext context)
         {
-            context.Send(message).ConfigureAwait(false);
-            Console.WriteLine("Received " + message.GetType().Name);
+            log.Info("Received " + message.GetType().Name + " Key " + message.KeyCode + " Message id " + message.MessageId + " Key modifiers " + string.Join(", ", message.Modifiers.Select(m => m.KeyCode)));
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(ReloadCommand message, IMessageHandlerContext context)
+        {
             return Task.CompletedTask;
         }
     }

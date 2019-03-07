@@ -1,0 +1,1 @@
+<?xml version="1.0"?><ReloadCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.net/NServiceBusTutorialMessages"><KeyCode>R</KeyCode><MessageId>91aa0ddd-e325-4d15-8734-7809a1d592a6</MessageId></ReloadCommand>

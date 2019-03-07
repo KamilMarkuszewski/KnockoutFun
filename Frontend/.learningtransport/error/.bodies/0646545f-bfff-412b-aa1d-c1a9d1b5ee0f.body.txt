@@ -1,0 +1,1 @@
+<?xml version="1.0"?><KeyCommand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.net/NServiceBusTutorialMessages"><KeyCode>R</KeyCode><MessageId>5e069e7b-e58f-4ddb-84bb-e78d572b7fd3</MessageId></KeyCommand>
