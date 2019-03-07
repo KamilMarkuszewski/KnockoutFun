@@ -8,7 +8,7 @@ namespace NServiceBusTutorialMessages
 {
     public class ComplexKeyCommand : ICommand
     {
-        public int Id { get; set; }
+        public string MessageId { get; set; }
 
         public string KeyCode { get; set; }
 
@@ -18,5 +18,10 @@ namespace NServiceBusTutorialMessages
     public class KeyModifier
     {
         public string KeyCode;
+
+        public KeyModifier(string keyCode)
+        {
+            KeyCode = keyCode;
+        }
     }
 }

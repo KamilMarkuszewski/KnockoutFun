@@ -24,15 +24,15 @@ namespace NServiceBusTutorialClientUi
             Console.Title = title;
             var endpointConf = new EndpointConfiguration(title);
             var transport = endpointConf.UseTransport<LearningTransport>();
-
+            var routing = transport.Routing();
+            routing.RouteToEndpoint(typeof(KeyCommand), "NServiceBusTutorialKeyService");
+            routing.RouteToEndpoint(typeof(ComplexKeyCommand), "NServiceBusTutorialKeyService");
 
             var endpoint = await Endpoint.Start(endpointConf).ConfigureAwait(false);
 
             await RunLoop(endpoint).ConfigureAwait(false);
 
             await endpoint.Stop().ConfigureAwait(false);
-
-
         }
 
         private static async Task RunLoop(IEndpointInstance endpoint)
@@ -49,13 +49,40 @@ namespace NServiceBusTutorialClientUi
                 }
                 else
                 {
-                    var cmd = new KeyCommand
+                    if ((key.Modifiers & ConsoleModifiers.Alt) != 0 || (key.Modifiers & ConsoleModifiers.Shift) != 0 || (key.Modifiers & ConsoleModifiers.Control) != 0)
                     {
-                        MessageId = Guid.NewGuid().ToString(),
-                        KeyCode = key.Key.ToString()
-                    };
+                        var cmd = new ComplexKeyCommand()
+                        {
+                            MessageId = Guid.NewGuid().ToString(),
+                            KeyCode = key.Key.ToString(),
+                            Modifiers = new List<KeyModifier>()
+                        };
 
-                    await endpoint.SendLocal(cmd).ConfigureAwait(false);
+                        if ((key.Modifiers & ConsoleModifiers.Alt) != 0 )
+                        {
+                            cmd.Modifiers.Add(new KeyModifier(ConsoleModifiers.Alt.ToString()));
+                        }
+                        if ((key.Modifiers & ConsoleModifiers.Control) != 0)
+                        {
+                            cmd.Modifiers.Add(new KeyModifier(ConsoleModifiers.Control.ToString()));
+                        }
+                        if ((key.Modifiers & ConsoleModifiers.Shift) != 0)
+                        {
+                            cmd.Modifiers.Add(new KeyModifier(ConsoleModifiers.Shift.ToString()));
+                        }
+
+                        await endpoint.SendLocal(cmd).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        var cmd = new KeyCommand
+                        {
+                            MessageId = Guid.NewGuid().ToString(),
+                            KeyCode = key.Key.ToString()
+                        };
+
+                        await endpoint.SendLocal(cmd).ConfigureAwait(false);
+                    }
                 }
             }
         }

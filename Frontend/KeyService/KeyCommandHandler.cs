@@ -7,7 +7,7 @@ using NServiceBus;
 using NServiceBus.Logging;
 using NServiceBusTutorialMessages;
 
-namespace NServiceBusTutorialClientUi
+namespace NServiceBusTutorialKeyService
 {
     class KeyCommandHandler : IHandleMessages<KeyCommand>, IHandleMessages<ComplexKeyCommand>
     {
@@ -15,15 +15,13 @@ namespace NServiceBusTutorialClientUi
 
         public Task Handle(KeyCommand message, IMessageHandlerContext context)
         {
-            context.Send(message).ConfigureAwait(false);
             log.Info("Received " + message.GetType().Name + " Key " + message.KeyCode + " Message id " + message.MessageId);
             return Task.CompletedTask;
         }
 
         public Task Handle(ComplexKeyCommand message, IMessageHandlerContext context)
         {
-            context.Send(message).ConfigureAwait(false);
-            Console.WriteLine("Received " + message.GetType().Name);
+            log.Info("Received " + message.GetType().Name + " Key " + message.KeyCode + " Message id " + message.MessageId + " Key modifiers " + string.Join(", ",message.Modifiers.Select(m=> m.KeyCode)));
             return Task.CompletedTask;
         }
     }
