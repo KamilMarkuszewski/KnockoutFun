@@ -47,8 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComplexKeyEvent.cs" />
-    <Compile Include="KeyEvent.cs" />
+    <Compile Include="ComplexKeyPressedEvent.cs" />
+    <Compile Include="KeyPressedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReloadCommand.cs" />
   </ItemGroup>

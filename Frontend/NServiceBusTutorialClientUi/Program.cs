@@ -61,7 +61,7 @@ namespace NServiceBusTutorialClientUi
                 {
                     if ((key.Modifiers & ConsoleModifiers.Alt) != 0 || (key.Modifiers & ConsoleModifiers.Shift) != 0 || (key.Modifiers & ConsoleModifiers.Control) != 0)
                     {
-                        var cmd = new ComplexKeyEvent()
+                        var cmd = new ComplexKeyPressedEvent()
                         {
                             MessageId = Guid.NewGuid().ToString(),
                             KeyCode = key.Key.ToString(),
@@ -85,7 +85,7 @@ namespace NServiceBusTutorialClientUi
                     }
                     else
                     {
-                        var cmd = new KeyEvent()
+                        var cmd = new KeyPressedEvent()
                         {
                             MessageId = Guid.NewGuid().ToString(),
                             KeyCode = key.Key.ToString()

@@ -21,6 +21,9 @@ namespace NServiceBusTutorialKeyService
             Console.Title = title;
 
             var conf = new EndpointConfiguration(title);
+            var recoverSettings = conf.Recoverability();
+
+            recoverSettings.Immediate(i => i.NumberOfRetries(1));
 
             var transport = conf.UseTransport<LearningTransport>();
 

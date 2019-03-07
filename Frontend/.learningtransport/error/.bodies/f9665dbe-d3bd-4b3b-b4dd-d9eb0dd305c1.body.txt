@@ -1,0 +1,1 @@
+<?xml version="1.0"?><KeyPressedEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.net/NServiceBusTutorialMessages"><KeyCode>S</KeyCode><MessageId>1b067d55-a98b-4779-906d-366dc13e97d8</MessageId></KeyPressedEvent>

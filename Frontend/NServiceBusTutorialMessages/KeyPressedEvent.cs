@@ -6,7 +6,7 @@ using NServiceBus;
 
 namespace NServiceBusTutorialMessages
 {
-    public class KeyEvent : IEvent
+    public class KeyPressedEvent : IEvent
     {
         public string KeyCode { get; set; }
 
