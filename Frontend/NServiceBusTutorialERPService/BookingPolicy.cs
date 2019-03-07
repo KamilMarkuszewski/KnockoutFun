@@ -26,31 +26,35 @@ namespace NServiceBusTutorialERPService
         {
             log.Info("OrderPlaced " + Data.OrderId);
             Data.IsOrderPlaced = true;
-            return ProcessDocument(context);
+            ProcessDocument(context);
+            return Task.CompletedTask;
         }
 
         public Task Handle(PaymentPlacedEvent message, IMessageHandlerContext context)
         {
             log.Info("PaymentPlaced " + Data.OrderId);
             Data.IsPaymentPlaced = true;
-            return ProcessDocument(context);
+            ProcessDocument(context);
+            return Task.CompletedTask;
         }
 
         public Task Handle(DecreePlacedEvent message, IMessageHandlerContext context)
         {
             log.Info("DecreePlaced " + Data.OrderId);
             Data.IsDecreePlaced = true;
-            return ProcessDocument(context);
+            ProcessDocument(context);
+            return Task.CompletedTask;
         }
 
         public Task Handle(InvoicePlacedEvent message, IMessageHandlerContext context)
         {
             log.Info("InvoicePlaced " + Data.OrderId);
             Data.IsInvoicePlaced = true;
-            return ProcessDocument(context);
+            ProcessDocument(context);
+            return Task.CompletedTask;
         }
 
-        public async Task ProcessDocument(IMessageHandlerContext context)
+        public void ProcessDocument(IMessageHandlerContext context)
         {
             if (Data.IsDecreePlaced && Data.IsInvoicePlaced && Data.IsOrderPlaced && Data.IsPaymentPlaced)
             {

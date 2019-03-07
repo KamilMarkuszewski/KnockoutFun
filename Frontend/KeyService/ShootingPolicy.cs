@@ -17,7 +17,8 @@ namespace NServiceBusTutorialKeyService
         {
             log.Info("SHOOTING Received " + message.GetType().Name + " Key " + message.KeyCode + " Message id " + message.MessageId);
             Data.IsShootReceived = true;
-            return ProcessShoot(context);
+            ProcessShoot(context);
+            return Task.CompletedTask;
         }
 
         public Task Handle(KeyPressedEvent message, IMessageHandlerContext context)
@@ -28,7 +29,8 @@ namespace NServiceBusTutorialKeyService
                 Data.IsShootKeyReceived = true;
             }
 
-            return ProcessShoot(context);
+            ProcessShoot(context);
+            return Task.CompletedTask;
         }
 
         public Task Handle(ComplexKeyPressedEvent message, IMessageHandlerContext context)
@@ -39,10 +41,11 @@ namespace NServiceBusTutorialKeyService
                 Data.IsShootKeyReceived = true;
             }
 
-            return ProcessShoot(context);
+            ProcessShoot(context);
+            return Task.CompletedTask;
         }
 
-        private async Task ProcessShoot(IMessageHandlerContext context)
+        private void ProcessShoot(IMessageHandlerContext context)
         {
             if (Data.IsShootKeyReceived && Data.IsShootReceived)
             {
