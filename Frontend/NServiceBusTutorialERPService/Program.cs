@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NServiceBus;
 using NServiceBusTutorialMessages;
 
-namespace NServiceBusTutorialShooterService
+namespace NServiceBusTutorialERPService
 {
     class Program
     {
@@ -17,22 +17,16 @@ namespace NServiceBusTutorialShooterService
 
         private static async Task AsyncMain()
         {
-            string title = "NServiceBusTutorialShooterService";
+            string title = "NServiceBusTutorialERPService";
 
             Console.Title = title;
 
             var conf = new EndpointConfiguration(title);
-            var recoverSettings = conf.Recoverability();
-
-            recoverSettings.Immediate(i => i.NumberOfRetries(0));
             conf.SendFailedMessagesTo("error");
-            conf.EnableInstallers();
+ 
             conf.UsePersistence<LearningPersistence>();
 
             var transport = conf.UseTransport<LearningTransport>();
-            var routing = transport.Routing();
-            routing.RouteToEndpoint(typeof(ShootCommand), "NServiceBusTutorialKeyService");
-
             var endpoint = await Endpoint.Start(conf).ConfigureAwait(false);
 
             Console.WriteLine("Press Enter to exit.");

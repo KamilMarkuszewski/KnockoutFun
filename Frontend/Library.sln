@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NServiceBusTutorialKeyServi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NServiceBusTutorialShooterService", "NServiceBusTutorialShooterService\NServiceBusTutorialShooterService.csproj", "{1FD35AC4-F403-432F-A288-461AE2776F24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NServiceBusTutorialERPService", "NServiceBusTutorialERPService\NServiceBusTutorialERPService.csproj", "{8B36C834-A362-4444-93D6-9DB1098564B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{1FD35AC4-F403-432F-A288-461AE2776F24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FD35AC4-F403-432F-A288-461AE2776F24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FD35AC4-F403-432F-A288-461AE2776F24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B36C834-A362-4444-93D6-9DB1098564B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B36C834-A362-4444-93D6-9DB1098564B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B36C834-A362-4444-93D6-9DB1098564B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B36C834-A362-4444-93D6-9DB1098564B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,1 @@
+<?xml version="1.0"?><PaymentPlacedEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://tempuri.net/NServiceBusTutorialMessages"><OrderId>7c0765fb-d0c0-4a4e-ac9e-46c728491fb6</OrderId></PaymentPlacedEvent>

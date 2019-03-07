@@ -41,6 +41,13 @@ namespace NServiceBusTutorialClientUi
             while (true)
             {
                 log.Info("Press Escape to quit");
+                log.Info("Press R to Reload, Enter to Shoot");
+                log.Info("Press O PlaceOrder");
+                log.Info("Press I To GenerateInvoice");
+                log.Info("Press P To Pay");
+                log.Info("Press B To Book Invoice");
+
+
                 var key = Console.ReadKey();
                 Console.WriteLine();
 

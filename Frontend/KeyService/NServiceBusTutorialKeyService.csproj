@@ -63,6 +63,10 @@
     <Analyzer Include="..\packages\NServiceBus.7.1.6\analyzers\dotnet\cs\NServiceBus.Core.Analyzer.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NServiceBusTutorialERPService\NServiceBusTutorialERPService.csproj">
+      <Project>{8B36C834-A362-4444-93D6-9DB1098564B7}</Project>
+      <Name>NServiceBusTutorialERPService</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NServiceBusTutorialMessages\NServiceBusTutorialMessages.csproj">
       <Project>{71f94213-ebe7-46b0-8059-a9385d179624}</Project>
       <Name>NServiceBusTutorialMessages</Name>

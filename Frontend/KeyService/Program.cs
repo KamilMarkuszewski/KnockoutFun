@@ -23,7 +23,7 @@ namespace NServiceBusTutorialKeyService
             var conf = new EndpointConfiguration(title);
             var recoverSettings = conf.Recoverability();
 
-            recoverSettings.Immediate(i => i.NumberOfRetries(1));
+            recoverSettings.Immediate(i => i.NumberOfRetries(0));
             conf.SendFailedMessagesTo("error");
             conf.EnableInstallers();
 
