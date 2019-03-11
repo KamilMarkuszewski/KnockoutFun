@@ -22,9 +22,14 @@ TODO:
 ◾Nested mappings
 ◾uzycie z EntitiyFramework (Select as class)
 
-Repo:
- ?
-
+
+NSerivceBus upskill
+TODO:
+konfiguracja środowsika
+rodzaje transportów
+przesyłanie prostych komunikatów
+Sagas
+przykłady użycia na produkcji w ******
 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -152,7 +157,30 @@ Component i Template - 				Mamy sobie reużywalne komponenty które stają się 
 									</script>
 									
 									
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+konfiguracja środowiska				Do celów nauki jest LearnignTransport i LearningPersistance. Do celów produkcji i devu już trzeba wybrać jakąś inną opcję, zainstalować particularServicePlatform i tam to skonfigurować.
+
+rodzaje transportów					No jest tego trochę. Między innymi MSMQ, Azure Service Bus, RabbitMQ, coś od Amazona.. i jest też SQLServer. 
+									W sql serverze leci to do pięciu tabelek audit, error, ServiceControl, ServiceControl.errors ServiceControl.staging.
+
+przesyłanie prostych komunikatów	Komunikat możemy przesłać z obiektu IEndpointInstance lub IMessageHandlerContext za pomocą send i sendLocal (komenda) lub Publish (event).
+									Komenda - leci do jednego określonego endpointu, Event jest broadcastowany.
+									Wysyłając komendę należy określić endpoint do którego wysyłamy lub konfigurować routing:
+									routing.RouteToEndpoint(typeof(ShootCommand), "DestinationEndpoint");
 									
+									Komendę i event  moze być odebrana klasą implementującą IHandleMessages<ICommand/IEvent> która ma metodę Handle.
+									Możliwe jest to też za pomocą sagi która implementuje IAmStartedByMessages które implementuje IHandleMessages.
+
+
+Sagas								Saga to taka maszyna stanów, która zapina sie na eventy/komendy i ustawia sobie stan gdy coś zostało wykonane, a później sprawdza, czy już wszystko, jeśli tak wykonuje jakąś akcję.
+									Saga implementuje Saga<IContainSagaData> oraz IAmStartedByMessages<IEvent/ICommand>, jako IContainSagaData trzeba wstawić klasę która to implementuje, ta klasa będzie trzymała stan.
+									Saga ma metodę ConfigureHowToFindSaga w której konfigurujemy mapingi w taki sposób:
+									mapper.ConfigureMapping<ShootCommand>(m => m.MessageId).ToSaga(sd => sd.MessageId);
+									Gdzie pierwsze messageId to zmienna eventu/komendy, a drugie to zmienna stanu sagi 
+									
+przykłady użycia na produkcji w **	
 									
 									
 

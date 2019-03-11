@@ -62,8 +62,5 @@ namespace NServiceBusTutorialKeyService
 
             mapper.ConfigureMapping<ComplexKeyPressedEvent>(m => m.MessageId).ToSaga(sd => sd.MessageId);
         }
-
-
-
     }
 }
